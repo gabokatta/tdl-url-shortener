@@ -1,0 +1,4 @@
+openapi: 3.0.1
+info:
+  title: URL Shortener
+  description: URL Shortening API - Coded in Kotlin - Powered by Micronaut

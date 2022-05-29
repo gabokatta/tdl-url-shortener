@@ -59,6 +59,14 @@ tasks {
         }
     }
 }
+
+tasks.register('swaggerCreate', Copy) {
+    from 'build/tmp/kapt3/classes/main/META-INF/swagger/url-shortener.yml'
+    into 'docs/swagger'
+}
+
+tasks.named('compileKotlin').get().finalizedBy('swaggerCreate')
+
 graalvmNative.toolchainDetection = false
 micronaut {
     runtime("netty")
