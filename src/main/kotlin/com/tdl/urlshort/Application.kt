@@ -1,8 +1,6 @@
 package com.tdl.urlshort
 
 import io.micronaut.runtime.Micronaut.build
-import io.swagger.v3.oas.annotations.*
-import io.swagger.v3.oas.annotations.info.*
 import org.slf4j.LoggerFactory
 
 class Application
