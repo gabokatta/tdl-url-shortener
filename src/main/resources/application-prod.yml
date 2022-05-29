@@ -1,0 +1,11 @@
+micronaut:
+  application:
+    name: urlShortener
+
+mongodb:
+  uri: "mongodb+srv://${username}:${password}@urlshort.i7qbi.mongodb.net/?retryWrites=true&w=majority"
+
+netty:
+  default:
+    allocator:
+      max-order: 3

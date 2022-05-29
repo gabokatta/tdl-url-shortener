@@ -9,5 +9,8 @@
         <Logger name="com.tdl.urlshort" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="com.tdl.urlshort" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
     </Loggers>
 </Configuration>
