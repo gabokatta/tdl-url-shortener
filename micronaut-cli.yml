@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.tdl.urlshort
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, config4k, data, data-mongodb, gradle, http-client, jackson-databind, junit, kotlin, kotlin-application, kotlin-build, log4j2, micronaut-build, netty-server, openapi, readme, shade, testcontainers]
