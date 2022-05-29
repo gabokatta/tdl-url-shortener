@@ -2,3 +2,53 @@ openapi: 3.0.1
 info:
   title: URL Shortener
   description: URL Shortening API - Coded in Kotlin - Powered by Micronaut
+paths:
+  /uba/tdl/metrics:
+    get:
+      tags:
+      - URL Operations
+      operationId: getMetrics
+      parameters: []
+      responses:
+        "200":
+          description: getMetrics 200 response
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /uba/tdl/redirect:
+    get:
+      tags:
+      - URL Operations
+      operationId: redirectURL
+      parameters: []
+      responses:
+        "200":
+          description: redirectURL 200 response
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /uba/tdl/shorten:
+    post:
+      tags:
+      - URL Operations
+      operationId: shortenURL
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+        required: true
+      responses:
+        "200":
+          description: shortenURL 200 response
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64

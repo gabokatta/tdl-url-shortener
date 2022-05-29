@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.slf4j.LoggerFactory
 
-
 @OpenAPIDefinition(
     info = Info(
         title = "URL Shortener",
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory
 class Application
 
 private val logger = LoggerFactory.getLogger(Application::class.java)
+
 fun main(args: Array<String>) {
     val scope = System.getenv("SCOPE")
     build()
