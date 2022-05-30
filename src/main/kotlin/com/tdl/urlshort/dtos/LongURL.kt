@@ -1,3 +1,5 @@
 package com.tdl.urlshort.dtos
 
-data class LongURL(val url : String)
+import javax.validation.constraints.NotBlank
+
+data class LongURL(@field:NotBlank val url : String)

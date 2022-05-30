@@ -10,6 +10,6 @@ interface ShorteningService {
 
     fun shortenURL(url:LongURL) : URL
     fun redirectURL(url:ShortURL) : ApiResponse
-    fun getUsageMetrics(url:ShortURL) : URLMetrics
+    fun getUsageMetrics(hash:String) : URLMetrics
 
 }
