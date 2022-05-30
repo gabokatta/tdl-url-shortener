@@ -3,7 +3,7 @@ micronaut:
     name: urlShortener
 
 mongodb:
-  uri: "mongodb+srv://${username}:${password}@urlshort.i7qbi.mongodb.net/?retryWrites=true&w=majority"
+  uri: "mongodb+srv://${username}:${password}@urlshort.i7qbi.mongodb.net/?retryWrites=true&w=majority&authSource=admin"
 
 netty:
   default:

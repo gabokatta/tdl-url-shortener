@@ -6,3 +6,7 @@ netty:
     default:
         allocator:
             max-order: 3
+
+db:
+    name: 'urlshort'
+    collection: 'hashes'

@@ -29,11 +29,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     runtimeOnly("org.apache.logging.log4j:log4j-api:2.17.2")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
-    runtimeOnly("org.mongodb:mongodb-driver-sync")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
     implementation("io.micronaut:micronaut-validation")
+    runtimeOnly("org.mongodb:mongodb-driver-sync")
+    implementation("io.micronaut.mongodb:micronaut-mongo-sync")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
