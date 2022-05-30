@@ -37,18 +37,10 @@ paths:
       - URL Operations
       operationId: shortenURL
       parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: integer
-              format: int64
-        required: true
       responses:
         "200":
           description: shortenURL 200 response
           content:
             application/json:
               schema:
-                type: integer
-                format: int64
+                type: string
