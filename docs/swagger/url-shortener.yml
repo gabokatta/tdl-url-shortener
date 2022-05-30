@@ -15,8 +15,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
-                format: int64
+                $ref: '#/components/schemas/URLMetrics'
   /uba/tdl/redirect:
     get:
       tags:
@@ -29,19 +28,78 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
-                format: int64
+                $ref: '#/components/schemas/ApiResponse'
   /uba/tdl/shorten:
     post:
       tags:
       - URL Operations
       operationId: shortenURL
       parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LongURL'
+        required: true
       responses:
         "200":
           description: shortenURL 200 response
           content:
             application/json:
               schema:
-                type: integer
-                format: int64
+                $ref: '#/components/schemas/URL'
+components:
+  schemas:
+    ApiResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    LongURL:
+      required:
+      - url
+      type: object
+      properties:
+        url:
+          type: string
+    URL:
+      required:
+      - hash
+      - lastUsed
+      - timesUsed
+      - url
+      type: object
+      properties:
+        url:
+          minLength: 1
+          type: string
+        hash:
+          minLength: 1
+          type: string
+        timesUsed:
+          minimum: 0
+          type: integer
+          format: int32
+        lastUsed:
+          type: string
+          format: date-time
+    URLMetrics:
+      required:
+      - hash
+      - lastUsage
+      - originalDomain
+      - usageCount
+      type: object
+      properties:
+        originalDomain:
+          type: string
+        hash:
+          type: string
+        usageCount:
+          type: integer
+          format: int32
+        lastUsage:
+          type: string
+          format: date-time

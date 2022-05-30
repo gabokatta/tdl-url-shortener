@@ -4,13 +4,15 @@ import jakarta.inject.Singleton
 import java.security.SecureRandom
 
 @Singleton
-class HashGenerator() {
+class HashUtils() {
 
     private val secureRandom : SecureRandom = SecureRandom()
     companion object {
         private const val CHARS  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         private const val BOUND = CHARS.length
         private const val HASH_LENGTH : Long = 6
+        private const val BASE_URI = "tdl.io/"
+        fun buildURL(hash : String) = BASE_URI + hash
     }
 
     fun generateHash() : String {

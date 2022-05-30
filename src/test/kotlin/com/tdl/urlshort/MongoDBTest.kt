@@ -14,6 +14,6 @@ class MongoDBTest {
 
     @Test
     fun testMongoWorks() {
-        Assertions.assertFalse(urlRepository.list().isEmpty())
+        Assertions.assertTrue(urlRepository.list().isEmpty())
     }
 }
