@@ -3,12 +3,17 @@ info:
   title: URL Shortener
   description: URL Shortening API - Coded in Kotlin - Powered by Micronaut
 paths:
-  /uba/tdl/metrics:
+  /uba/tdl/metrics/{hash}:
     get:
       tags:
-      - URL Operations
+      - Internal URL Operations
       operationId: getMetrics
-      parameters: []
+      parameters:
+      - name: hash
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         "200":
           description: getMetrics 200 response
@@ -17,11 +22,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/URLMetrics'
   /uba/tdl/redirect:
-    get:
+    post:
       tags:
-      - URL Operations
+      - Public URL Operations
       operationId: redirectURL
       parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShortURL'
+        required: true
       responses:
         "200":
           description: redirectURL 200 response
@@ -32,7 +43,7 @@ paths:
   /uba/tdl/shorten:
     post:
       tags:
-      - URL Operations
+      - Public URL Operations
       operationId: shortenURL
       parameters: []
       requestBody:
@@ -63,6 +74,15 @@ components:
       type: object
       properties:
         url:
+          minLength: 1
+          type: string
+    ShortURL:
+      required:
+      - url
+      type: object
+      properties:
+        url:
+          minLength: 1
           type: string
     URL:
       required:
@@ -94,10 +114,13 @@ components:
       type: object
       properties:
         originalURL:
+          minLength: 1
           type: string
         shortURL:
+          minLength: 1
           type: string
         usageCount:
+          minimum: 0
           type: integer
           format: int32
         lastUsage:

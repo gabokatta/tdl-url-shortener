@@ -17,5 +17,5 @@ class URLShorteningService(private val repository: URLRepository,
 
     override fun redirectURL(url : ShortURL) : ApiResponse = TODO("Not yet implemented")
 
-    override fun getUsageMetrics(url : ShortURL) : URLMetrics = TODO("Not yet implemented")
+    override fun getUsageMetrics(hash : String) : URLMetrics = TODO("Not yet implemented")
 }
