@@ -87,15 +87,15 @@ components:
           format: date-time
     URLMetrics:
       required:
-      - hash
       - lastUsage
-      - originalDomain
+      - originalURL
+      - shortURL
       - usageCount
       type: object
       properties:
-        originalDomain:
+        originalURL:
           type: string
-        hash:
+        shortURL:
           type: string
         usageCount:
           type: integer
