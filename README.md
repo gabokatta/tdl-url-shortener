@@ -1,3 +1,16 @@
+# URL Shortener - Team PFG
+
+Acortador de URLs implementado en Kotlin para la materia Teoria del Lenguaje.
+
+* Framework: Micronaut 🚀👨🏼‍🚀 
+* Database: MongoDB 🍃
+
+> ![how-search-engine-works-by-marketlink-web-solutions](https://user-images.githubusercontent.com/102127372/171062437-debdf482-9b60-4eff-8924-9e1e02251d4d.gif)
+
+---
+
+
+
 ## Micronaut 3.5.0 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.5.0/guide/index.html)
