@@ -1,3 +1,6 @@
 package com.tdl.urlshort.dtos
 
-data class ApiResponse(val message : String)
+import io.micronaut.core.annotation.Introspected
+
+@Introspected
+data class ApiResponse(val message : String? = "Default API message.")

@@ -33,5 +33,5 @@ data class URL @Creator @BsonCreator constructor(
     @param:BsonProperty("last_used")
     @field:PastOrPresent
     @field:NotNull
-    val lastUsed: Date
+    val lastUsed: Date = Calendar.getInstance().time
 )
