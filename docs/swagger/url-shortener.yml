@@ -7,6 +7,7 @@ paths:
     get:
       tags:
       - Internal URL Operations
+      summary: Retrieves URL usage metrics.
       operationId: getMetrics
       parameters:
       - name: hash
@@ -25,6 +26,7 @@ paths:
     post:
       tags:
       - Public URL Operations
+      summary: Redirects shortened URL to it's original domain.
       operationId: redirectURL
       parameters: []
       requestBody:
@@ -44,6 +46,7 @@ paths:
     post:
       tags:
       - Public URL Operations
+      summary: Shortens a given URL.
       operationId: shortenURL
       parameters: []
       requestBody:

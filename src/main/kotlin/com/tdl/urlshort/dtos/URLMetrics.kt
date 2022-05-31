@@ -1,11 +1,13 @@
 package com.tdl.urlshort.dtos
 
+import io.micronaut.core.annotation.Introspected
 import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Positive
 
+@Introspected
 data class URLMetrics(
 
     @field:NotBlank
