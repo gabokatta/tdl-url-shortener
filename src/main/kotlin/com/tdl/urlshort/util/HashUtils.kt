@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets
 
 @Singleton
 class HashUtils() {
-    
+
     companion object {
         private const val HASH_LENGTH  = 6
     }

@@ -65,12 +65,11 @@ paths:
 components:
   schemas:
     ApiResponse:
-      required:
-      - message
       type: object
       properties:
         message:
           type: string
+          nullable: true
     LongURL:
       required:
       - url
