@@ -8,7 +8,7 @@ import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.PastOrPresent
-import javax.validation.constraints.Positive
+import javax.validation.constraints.PositiveOrZero
 
 @Introspected
 data class URLRegister @Creator @BsonCreator constructor(
@@ -26,7 +26,7 @@ data class URLRegister @Creator @BsonCreator constructor(
     @field:BsonProperty("times_used")
     @param:BsonProperty("times_used")
     @field:NotNull
-    @field:Positive
+    @field:PositiveOrZero
     val timesUsed: Int = 0,
 
     @field:BsonProperty("last_used")
