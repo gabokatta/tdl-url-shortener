@@ -5,7 +5,7 @@ import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-@MicronautTest(environments = ["prod"])
+@MicronautTest(environments = ["test"])
 class ApplicationTest {
 
     @Inject
