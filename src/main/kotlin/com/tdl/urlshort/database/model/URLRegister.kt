@@ -11,7 +11,7 @@ import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Positive
 
 @Introspected
-data class URL @Creator @BsonCreator constructor(
+data class URLRegister @Creator @BsonCreator constructor(
 
     @field:BsonProperty("url")
     @param:BsonProperty("url")
