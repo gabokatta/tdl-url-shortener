@@ -1,6 +1,6 @@
 package com.tdl.urlshort.controller
 
-import com.tdl.urlshort.database.model.URL
+import com.tdl.urlshort.database.model.URLRegister
 import com.tdl.urlshort.dtos.ApiResponse
 import com.tdl.urlshort.dtos.LongURL
 import com.tdl.urlshort.dtos.ShortURL
@@ -26,12 +26,11 @@ open class ShortenerController(private val shorteningService : ShorteningService
     @Post("/shorten")
     @Operation(summary = "Shortens a given URL.")
     @Tag(name = "Public URL Operations")
-    open fun shortenURL(@Valid @Body url : LongURL) : HttpResponse<URL> = HttpResponse.created(shorteningService.shortenURL(url))
+    open fun shortenURL(@Valid @Body url : LongURL) : HttpResponse<URLRegister> = HttpResponse.created(shorteningService.shortenURL(url))
 
     @Get("/metrics/{hash}")
     @Operation(summary = "Retrieves URL usage metrics.")
     @Tag(name = "Internal URL Operations")
     open fun getMetrics(@PathVariable hash : String) : HttpResponse<URLMetrics> = HttpResponse.ok(shorteningService.getUsageMetrics(hash))
-
 
 }

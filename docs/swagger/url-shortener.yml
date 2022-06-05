@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/URL'
+                $ref: '#/components/schemas/URLRegister'
 components:
   schemas:
     ApiResponse:
@@ -86,27 +86,6 @@ components:
         url:
           minLength: 1
           type: string
-    URL:
-      required:
-      - hash
-      - lastUsed
-      - timesUsed
-      - url
-      type: object
-      properties:
-        url:
-          minLength: 1
-          type: string
-        hash:
-          minLength: 1
-          type: string
-        timesUsed:
-          minimum: 0
-          type: integer
-          format: int32
-        lastUsed:
-          type: string
-          format: date-time
     URLMetrics:
       required:
       - lastUsage
@@ -126,5 +105,26 @@ components:
           type: integer
           format: int32
         lastUsage:
+          type: string
+          format: date-time
+    URLRegister:
+      required:
+      - hash
+      - lastUsed
+      - timesUsed
+      - url
+      type: object
+      properties:
+        url:
+          minLength: 1
+          type: string
+        hash:
+          minLength: 1
+          type: string
+        timesUsed:
+          minimum: 0
+          type: integer
+          format: int32
+        lastUsed:
           type: string
           format: date-time
