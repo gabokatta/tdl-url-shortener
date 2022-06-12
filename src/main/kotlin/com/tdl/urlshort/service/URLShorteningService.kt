@@ -27,7 +27,7 @@ class URLShorteningService(private val repository: URLRepository,
 
         return URLMetrics(
                 originalURL = urlRegister.url,
-                shortURL = urlRegister.hash,
+                shortURL = urlUtils.buildURL(urlRegister.hash),
                 usageCount = urlRegister.timesUsed,
                 lastUsage = urlRegister.lastUsed);
 
