@@ -15,6 +15,7 @@ open class URLRepositoryImpl (
     private val mongoConfiguration: MongoConfiguration,
     private val mongoClient: MongoClient
     ) : URLRepository {
+
     override fun save(@Valid entry: URLRegister) {
         collection.insertOne(entry)
     }

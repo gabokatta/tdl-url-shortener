@@ -1,7 +1,7 @@
 package com.tdl.urlshort.service
 
-import com.tdl.urlshort.database.model.URLRegister
 import com.tdl.urlshort.dtos.LongURL
+import com.tdl.urlshort.dtos.ShortURL
 import com.tdl.urlshort.dtos.URLMetrics
 import java.net.URI
 

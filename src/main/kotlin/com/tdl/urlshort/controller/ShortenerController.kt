@@ -2,6 +2,7 @@ package com.tdl.urlshort.controller
 
 import com.tdl.urlshort.dtos.ApiResponse
 import com.tdl.urlshort.dtos.LongURL
+import com.tdl.urlshort.dtos.ShortURL
 import com.tdl.urlshort.dtos.URLMetrics
 import com.tdl.urlshort.service.ShorteningService
 import io.micronaut.http.HttpResponse

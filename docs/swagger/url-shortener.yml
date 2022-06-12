@@ -71,7 +71,15 @@ components:
           nullable: true
     LongURL:
       required:
-      - url
+        - url
+      type: object
+      properties:
+        url:
+          minLength: 1
+          type: string
+    ShortURL:
+      required:
+        - url
       type: object
       properties:
         url:
@@ -79,10 +87,10 @@ components:
           type: string
     URLMetrics:
       required:
-      - lastUsage
-      - originalURL
-      - shortURL
-      - usageCount
+        - lastUsage
+        - originalURL
+        - shortURL
+        - usageCount
       type: object
       properties:
         originalURL:
