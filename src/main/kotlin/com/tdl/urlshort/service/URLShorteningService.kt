@@ -3,14 +3,15 @@ package com.tdl.urlshort.service
 import com.tdl.urlshort.database.model.URLRegister
 import com.tdl.urlshort.database.repository.URLRepository
 import com.tdl.urlshort.dtos.LongURL
+import com.tdl.urlshort.dtos.ShortURL
 import com.tdl.urlshort.dtos.URLMetrics
-import com.tdl.urlshort.exceptions.URLNotFound
-import java.net.URI
 import com.tdl.urlshort.exceptions.InvalidURL
+import com.tdl.urlshort.exceptions.URLNotFound
 import com.tdl.urlshort.util.HashUtils
 import com.tdl.urlshort.util.URLUtils
 import jakarta.inject.Singleton
-import java.util.Calendar
+import java.net.URI
+import java.util.*
 
 @Singleton
 class URLShorteningService(
