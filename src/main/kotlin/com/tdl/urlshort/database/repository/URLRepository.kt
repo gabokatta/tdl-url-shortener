@@ -11,6 +11,7 @@ interface URLRepository {
     fun find(hash: String): URLRegister?
     fun list(): List<URLRegister>
     fun save(@Valid entry: URLRegister)
+    fun update(updateDocument: URLRegister)
 
     fun getCodec() : CodecRegistry = CodecRegistries.fromRegistries(
         MongoClientSettings.getDefaultCodecRegistry(),

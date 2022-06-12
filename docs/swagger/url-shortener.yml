@@ -22,19 +22,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/URLMetrics'
-  /uba/tdl/redirect:
+  /uba/tdl/redirect/{hash}:
     post:
       tags:
-      - Public URL Operations
+        - Public URL Operations
       summary: Redirects shortened URL to it's original domain.
       operationId: redirectURL
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ShortURL'
-        required: true
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: redirectURL 200 response
@@ -71,14 +70,6 @@ components:
           type: string
           nullable: true
     LongURL:
-      required:
-      - url
-      type: object
-      properties:
-        url:
-          minLength: 1
-          type: string
-    ShortURL:
       required:
       - url
       type: object

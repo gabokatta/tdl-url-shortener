@@ -2,7 +2,6 @@ package com.tdl.urlshort.controller
 
 import com.tdl.urlshort.dtos.ApiResponse
 import com.tdl.urlshort.dtos.LongURL
-import com.tdl.urlshort.dtos.ShortURL
 import com.tdl.urlshort.dtos.URLMetrics
 import com.tdl.urlshort.service.ShorteningService
 import io.micronaut.http.HttpResponse
@@ -17,10 +16,11 @@ import javax.validation.Valid
 @ExecuteOn(TaskExecutors.IO)
 open class ShortenerController(private val shorteningService : ShorteningService) {
 
-    @Post("/redirect")
+    @Post("/redirect/{hash}")
     @Operation(summary = "Redirects shortened URL to it's original domain.")
     @Tag(name = "Public URL Operations")
-    open fun redirectURL(@Valid @Body url : ShortURL) : HttpResponse<ApiResponse> = HttpResponse.ok(shorteningService.redirectURL(url))
+    open fun redirectURL(@PathVariable hash: String): HttpResponse<ApiResponse> =
+        HttpResponse.redirect(shorteningService.redirectURL(hash))
 
     @Post("/shorten")
     @Operation(summary = "Shortens a given URL.")
