@@ -17,9 +17,13 @@ class URLShortenerIntegrationTest : BaseIntegrationTest() {
     fun testAddSameShort() {
         var response = callAPI(HttpMethod.POST, "/uba/tdl/shorten", "{\"url\": \"https://www.google.com\"}")
         Assertions.assertEquals(HttpStatus.CREATED, response.status)
+        val url1 = response.body()
 
         response = callAPI(HttpMethod.POST, "/uba/tdl/shorten", "{\"url\": \"https://www.google.com\"}")
         Assertions.assertEquals(HttpStatus.CREATED, response.status)
+        val url2 = response.body()
+
+        Assertions.assertNotEquals(url1, url2)
     }
 
     @Test

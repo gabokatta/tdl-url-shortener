@@ -21,7 +21,13 @@ class URLShorteningService(
     override fun shortenURL(url: LongURL): ShortURL {
         if (!urlUtils.isValidURL(url.url))
             throw InvalidURL(url.url)
-        val entry = URLRegister(url.url, hashUtils.generateHash(url.url), 0, Calendar.getInstance().time)
+        var hash = hashUtils.generateHash(url.url)
+        var i = 0
+        while(repository.find(hash) != null){
+            hash = hashUtils.generateHash(url.url + i)
+            i++
+        }
+        val entry = URLRegister(url.url, hash, 0, Calendar.getInstance().time)
         repository.save(entry)
         return ShortURL(urlUtils.buildURL(entry.hash))
     }
