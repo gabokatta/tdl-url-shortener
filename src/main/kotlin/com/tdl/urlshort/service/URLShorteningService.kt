@@ -9,6 +9,7 @@ import com.tdl.urlshort.util.HashUtils
 import com.tdl.urlshort.util.URLUtils
 import jakarta.inject.Singleton
 import java.net.URI
+import java.util.*
 
 @Singleton
 class URLShorteningService(private val repository: URLRepository,
@@ -17,7 +18,12 @@ class URLShorteningService(private val repository: URLRepository,
     override fun shortenURL(url: LongURL): URLRegister = TODO("Not yet implemented")
 
     override fun redirectURL(hash: String): URI {
+
         val urlRegister = repository.find(hash) ?: throw URLNotFound("Short URL with hash: $hash not found.")
+        urlRegister.lastUsed = Calendar.getInstance().time
+        urlRegister.timesUsed += 1
+        repository.update(urlRegister)
+
         return URI(urlRegister.url)
     }
 

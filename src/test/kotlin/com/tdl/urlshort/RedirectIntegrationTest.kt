@@ -29,8 +29,15 @@ class RedirectIntegrationTest : BaseIntegrationTest() {
     @Test
     fun testRedirect() {
         val response = callAPI(HttpMethod.POST, "/uba/tdl/redirect/12345")
+        val expectedUsages = 3
+
+        // Test Redirection.
         Assertions.assertEquals(HttpStatus.OK, response.status)
         Assertions.assertTrue(response.headers.contains("X-GitHub-Request-Id"))
+        // Test Metrics Update
+        urlRepository.find("12345")?.let {
+            Assertions.assertEquals(it.timesUsed, expectedUsages)
+        }
     }
 
     @Test
