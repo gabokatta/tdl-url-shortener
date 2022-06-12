@@ -43,5 +43,16 @@ class URLShorteningService(
         
     }
 
-    override fun getUsageMetrics(hash: String): URLMetrics = TODO("Not yet implemented")
+     override fun getUsageMetrics(hash : String) : URLMetrics {
+
+        val urlRegister = repository.find(hash)
+                ?: throw URLNotFound("Could not find Metrics for hash: $hash")
+
+        return URLMetrics(
+                originalURL = urlRegister.url,
+                shortURL = urlUtils.buildURL(urlRegister.hash),
+                usageCount = urlRegister.timesUsed,
+                lastUsage = urlRegister.lastUsed);
+
+    }
 }
