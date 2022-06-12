@@ -1,5 +1,6 @@
 package com.tdl.urlshort
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.tdl.urlshort.database.model.URLRegister
 import com.tdl.urlshort.database.repository.URLRepository
 import com.tdl.urlshort.dtos.URLMetrics
@@ -12,16 +13,19 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.util.*
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class URLMetricsIntegrationTest : BaseIntegrationTest(){
+class URLMetricsIntegrationTest : BaseIntegrationTest() {
+
     @Inject
     lateinit var urlRepository: URLRepository
+    var mapper: ObjectMapper = ObjectMapper()
+    private val testBeginDate: Date = Calendar.getInstance().time
 
     @BeforeAll
     fun populateRepository() {
-        val goodRegister = URLRegister("https://github.com/", "12345", 2, Calendar.getInstance().time)
-        val badRegister = URLRegister("hubgit.moc", "54321", 1, Calendar.getInstance().time)
-        listOf(goodRegister, badRegister).forEach(urlRepository::save)
+        val register = URLRegister("https://github.com/", "12345", 2, testBeginDate)
+        urlRepository.save(register)
     }
 
     @Test
@@ -35,12 +39,9 @@ class URLMetricsIntegrationTest : BaseIntegrationTest(){
     @Test
     fun testGetMetrics() {
         val response = callAPI(HttpMethod.GET, "/uba/tdl/metrics/12345")
+        val expectedMetrics = URLMetrics("https://github.com/", "tdl.io/12345", 2, testBeginDate)
         Assertions.assertEquals(HttpStatus.OK, response.status)
+        Assertions.assertEquals(mapper.writeValueAsString(expectedMetrics), response.body())
     }
 
-    @Test
-    fun testGetMetricsAgain() {
-        val response = callAPI(HttpMethod.GET, "/uba/tdl/metrics/54321")
-        Assertions.assertEquals(HttpStatus.OK, response.status)
-    }
 }
