@@ -7,7 +7,7 @@ import java.net.URI
 
 interface ShorteningService {
 
-    fun shortenURL(url: LongURL): URLRegister
+    fun shortenURL(url: LongURL): ShortURL
     fun redirectURL(hash: String): URI
     fun getUsageMetrics(hash: String): URLMetrics
 

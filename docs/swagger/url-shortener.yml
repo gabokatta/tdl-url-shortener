@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/URLRegister'
+                $ref: '#/components/schemas/ShortURL'
 components:
   schemas:
     ApiResponse:
@@ -96,26 +96,5 @@ components:
           type: integer
           format: int32
         lastUsage:
-          type: string
-          format: date-time
-    URLRegister:
-      required:
-      - hash
-      - lastUsed
-      - timesUsed
-      - url
-      type: object
-      properties:
-        url:
-          minLength: 1
-          type: string
-        hash:
-          minLength: 1
-          type: string
-        timesUsed:
-          minimum: 0
-          type: integer
-          format: int32
-        lastUsed:
           type: string
           format: date-time
