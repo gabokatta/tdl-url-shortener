@@ -41,13 +41,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /uba/tdl/search:
+    post:
+      tags:
+        - Internal URL Operations
+      summary: Retrieves any shortened site that matches certain keywords.
+      operationId: searchSites
+      parameters: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Keywords'
+        required: true
+      responses:
+        "200":
+          description: searchSites 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
   /uba/tdl/shorten:
     post:
       tags:
-      - Public URL Operations
+        - Public URL Operations
       summary: Shortens a given URL.
       operationId: shortenURL
-      parameters: []
+      parameters: [ ]
       requestBody:
         content:
           application/json:
@@ -69,6 +91,16 @@ components:
         message:
           type: string
           nullable: true
+    Keywords:
+      required:
+        - values
+      type: object
+      properties:
+        values:
+          minItems: 1
+          type: array
+          items:
+            type: string
     LongURL:
       required:
         - url
@@ -77,6 +109,19 @@ components:
         url:
           minLength: 1
           type: string
+    SearchResult:
+      required:
+        - matchingWords
+        - url
+      type: object
+      properties:
+        url:
+          minLength: 1
+          type: string
+        matchingWords:
+          type: array
+          items:
+            type: string
     ShortURL:
       required:
         - url

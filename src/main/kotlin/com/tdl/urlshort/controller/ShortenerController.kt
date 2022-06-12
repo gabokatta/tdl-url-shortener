@@ -1,9 +1,6 @@
 package com.tdl.urlshort.controller
 
-import com.tdl.urlshort.dtos.ApiResponse
-import com.tdl.urlshort.dtos.LongURL
-import com.tdl.urlshort.dtos.ShortURL
-import com.tdl.urlshort.dtos.URLMetrics
+import com.tdl.urlshort.dtos.*
 import com.tdl.urlshort.service.ShorteningService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
@@ -32,6 +29,13 @@ open class ShortenerController(private val shorteningService : ShorteningService
     @Get("/metrics/{hash}")
     @Operation(summary = "Retrieves URL usage metrics.")
     @Tag(name = "Internal URL Operations")
-    open fun getMetrics(@PathVariable hash : String) : HttpResponse<URLMetrics> = HttpResponse.ok(shorteningService.getUsageMetrics(hash))
+    open fun getMetrics(@PathVariable hash: String): HttpResponse<URLMetrics> =
+        HttpResponse.ok(shorteningService.getUsageMetrics(hash))
+
+    @Post("/search")
+    @Operation(summary = "Retrieves any shortened site that matches certain keywords.")
+    @Tag(name = "Internal URL Operations")
+    open fun searchSites(@Valid @Body keywords: Keywords): HttpResponse<List<SearchResult>> =
+        HttpResponse.ok(shorteningService.searchSites(keywords))
 
 }
