@@ -15,6 +15,10 @@ open class URLRepositoryMock () : URLRepository {
         collection[entry.hash] = entry
     }
 
+    override fun update(updateDocument: URLRegister) {
+        collection[updateDocument.hash] = updateDocument
+    }
+
     override fun find(hash: String): URLRegister? {
         return collection[hash]
     }

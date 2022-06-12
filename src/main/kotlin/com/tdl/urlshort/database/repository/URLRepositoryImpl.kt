@@ -19,13 +19,18 @@ open class URLRepositoryImpl (
         collection.insertOne(entry)
     }
 
+    override fun update(updateDocument: URLRegister) {
+        collection.replaceOne(Filters.eq("hash", updateDocument.hash), updateDocument)
+    }
+
     override fun find(hash: String): URLRegister? {
         return collection.find(Filters.eq("hash", hash)).first()
     }
 
     override fun list(): List<URLRegister> = collection.find().into(ArrayList())
 
-    private val collection: MongoCollection<URLRegister> get() = mongoClient
+    private val collection: MongoCollection<URLRegister>
+        get() = mongoClient
             .getDatabase(mongoConfiguration.name)
             .getCollection(mongoConfiguration.collection, URLRegister::class.java)
             .withCodecRegistry(this.getCodec())

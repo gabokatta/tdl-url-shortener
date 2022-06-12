@@ -1,5 +1,6 @@
 package com.tdl.urlshort.dtos
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import io.micronaut.core.annotation.Introspected
 import java.util.*
 import javax.validation.constraints.NotBlank
@@ -22,4 +23,5 @@ data class URLMetrics(
 
     @field:PastOrPresent
     @field:NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     val lastUsage: Date)
