@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import io.micronaut.core.annotation.Creator
 import io.micronaut.core.annotation.Introspected
 import org.bson.codecs.pojo.annotations.BsonCreator
-import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty
-import org.checkerframework.common.aliasing.qual.Unique
 import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -24,7 +22,6 @@ data class URLRegister @Creator @BsonCreator constructor(
     @field:BsonProperty("hash")
     @param:BsonProperty("hash")
     @field:NotBlank
-    @field:BsonId
     val hash: String,
 
     @field:BsonProperty("times_used")
