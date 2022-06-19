@@ -14,7 +14,7 @@ import javax.validation.Valid
 @ExecuteOn(TaskExecutors.IO)
 open class ShortenerController(private val shorteningService : ShorteningService) {
 
-    @Post("/redirect/{hash}")
+    @Get("/redirect/{hash}")
     @Operation(summary = "Redirects shortened URL to it's original domain.")
     @Tag(name = "Public URL Operations")
     open fun redirectURL(@PathVariable hash: String): HttpResponse<ApiResponse> =
