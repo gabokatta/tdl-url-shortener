@@ -1,12 +1,17 @@
 micronaut:
-    application:
-        name: urlShortener
+  application:
+    name: urlShortener
+
+  server:
+    port: ${PORT:8080}
+    cors:
+      enabled: true
 
 netty:
-    default:
-        allocator:
-            max-order: 3
+  default:
+    allocator:
+      max-order: 3
 
 db:
-    name: 'urlshort'
-    collection: 'hashes'
+  name: 'urlshort'
+  collection: 'hashes'
