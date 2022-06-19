@@ -28,7 +28,7 @@ class RedirectIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun testRedirect() {
-        val response = callAPI(HttpMethod.POST, "/uba/tdl/redirect/12345")
+        val response = callAPI(HttpMethod.GET, "/uba/tdl/redirect/12345")
         val expectedUsages = 3
 
         // Test Redirection.
@@ -43,7 +43,7 @@ class RedirectIntegrationTest : BaseIntegrationTest() {
     @Test
     fun testRedirectNotFound() {
         val response = Assertions.assertThrows(HttpClientResponseException::class.java) {
-            callAPI(HttpMethod.POST, "/uba/tdl/redirect/123")
+            callAPI(HttpMethod.GET, "/uba/tdl/redirect/123")
         }
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.status)
     }
@@ -51,7 +51,7 @@ class RedirectIntegrationTest : BaseIntegrationTest() {
     @Test
     fun testInvalidRedirect() {
         val response = Assertions.assertThrows(HttpClientResponseException::class.java) {
-            callAPI(HttpMethod.POST, "/uba/tdl/redirect/54321")
+            callAPI(HttpMethod.GET, "/uba/tdl/redirect/54321")
         }
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.status)
     }

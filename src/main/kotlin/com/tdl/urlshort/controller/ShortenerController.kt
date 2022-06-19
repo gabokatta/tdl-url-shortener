@@ -39,3 +39,4 @@ open class ShortenerController(private val shorteningService : ShorteningService
         HttpResponse.ok(shorteningService.searchSites(keywords))
 
 }
+

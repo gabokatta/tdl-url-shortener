@@ -1,6 +1,9 @@
 micronaut:
     application:
         name: urlShortener
+    http:
+        client:
+            read-timeout: 20s
 
 netty:
     default:

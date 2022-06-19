@@ -10,7 +10,10 @@ import com.tdl.urlshort.util.URLUtils
 import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.http.client.exceptions.ReadTimeoutException
 import jakarta.inject.Singleton
+import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.*
 import kotlin.streams.toList
@@ -22,13 +25,15 @@ class URLShorteningService(
     private val hashUtils: HashUtils,
     private val urlUtils: URLUtils
 ) : ShorteningService {
-  
+
+    private val logger = LoggerFactory.getLogger(URLShorteningService::class.java)
+
     override fun shortenURL(url: LongURL): ShortURL {
         if (!urlUtils.isValidURL(url.url))
             throw InvalidURL(url.url)
         var hash = hashUtils.generateHash(url.url)
         var i = 0
-        while(repository.find(hash) != null){
+        while (repository.find(hash) != null) {
             hash = hashUtils.generateHash(url.url + i)
             i++
         }
@@ -52,7 +57,7 @@ class URLShorteningService(
             urlUtils.buildURL(urlRegister.hash),
             urlRegister.timesUsed,
             urlRegister.lastUsed
-        );
+        )
     }
 
     override fun searchSites(keywords: Keywords): List<SearchResult> {
@@ -73,8 +78,17 @@ class URLShorteningService(
     }
 
     private fun retrieveSiteContents(url: String): String {
-        val request: HttpRequest<String> = HttpRequest.create(HttpMethod.GET, url)
-        return client.toBlocking().retrieve(request)
+        logger.info("GET REQUEST: {}", url)
+        var response = ""
+        try {
+            val request: HttpRequest<String> = HttpRequest.create(HttpMethod.GET, url)
+            response = client.toBlocking().retrieve(request)
+        } catch (e: HttpClientResponseException) {
+            logger.info("GET REQUEST: {} failed with status code: {}", url, e.status)
+        } catch (e: ReadTimeoutException) {
+            logger.info("GET REQUEST: {} failed with read-timeout.", url)
+        }
+        return response
     }
 
     private fun siteContains(siteContents: String, word: String): Boolean = siteContents.contains(word)

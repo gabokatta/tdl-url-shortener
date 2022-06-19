@@ -23,7 +23,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/URLMetrics'
   /uba/tdl/redirect/{hash}:
-    post:
+    get:
       tags:
         - Public URL Operations
       summary: Redirects shortened URL to it's original domain.
