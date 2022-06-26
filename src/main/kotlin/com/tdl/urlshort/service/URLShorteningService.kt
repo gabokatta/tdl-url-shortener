@@ -13,6 +13,7 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.http.client.exceptions.ReadTimeoutException
 import jakarta.inject.Singleton
+import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.*
@@ -27,6 +28,8 @@ class URLShorteningService(
 ) : ShorteningService {
 
     private val logger = LoggerFactory.getLogger(URLShorteningService::class.java)
+    private val apiScope = CoroutineScope(Dispatchers.IO + CoroutineName("API Call Scope"))
+    private val taskScope = CoroutineScope(Dispatchers.Default + CoroutineName("Heavy Task Scope"))
 
     override fun shortenURL(url: LongURL): ShortURL {
         if (!urlUtils.isValidURL(url.url))
@@ -60,21 +63,28 @@ class URLShorteningService(
         )
     }
 
-    override fun searchSites(keywords: Keywords): List<SearchResult> {
+    override fun searchSites(keywords: Keywords): List<SearchResult> = runBlocking {
         val sites = repository.list().map { register -> register.url }.toSet()
-        return sites.stream()
-            .map { site -> searchKeywords(site, keywords.values) }
-            .filter { result -> result.matchingWords.isNotEmpty() }
+        return@runBlocking sites.stream()
+            .map { site -> taskScope.async { searchKeywords(site, keywords.values) } }
             .toList()
+            .awaitAll()
+            .filter { result -> result.matchingWords.isNotEmpty() }
     }
 
-    private fun searchKeywords(url: String, words: List<String>): SearchResult {
-        val getResult = retrieveSiteContents(url)
-        val matches = words
-            .stream()
-            .filter { word -> siteContains(getResult, word) }
+    private suspend fun searchKeywords(url: String, words: List<String>): SearchResult {
+
+        val getResult = apiScope.async { retrieveSiteContents(url) }
+
+        val matches = words.stream()
+            .map { word -> taskScope.async { siteContains(getResult.await(), word) } }
             .toList()
+            .awaitAll()
+            .filter { result -> result.found }
+            .map { found -> found.word }
+
         return SearchResult(url, matches)
+
     }
 
     private fun retrieveSiteContents(url: String): String {
@@ -91,7 +101,9 @@ class URLShorteningService(
         return response
     }
 
-    private fun siteContains(siteContents: String, word: String): Boolean = siteContents.contains(word)
+    private fun siteContains(siteContents: String, word: String): WordFound {
+        return WordFound(word, siteContents.contains(word))
+    }
 
 
 }
