@@ -88,15 +88,16 @@ class URLShorteningService(
     }
 
     private fun retrieveSiteContents(url: String): String {
-        logger.info("GET REQUEST: {}", url)
+        logger.info("[BEGIN] GET REQUEST: {}", url)
         var response = ""
         try {
             val request: HttpRequest<String> = HttpRequest.create(HttpMethod.GET, url)
             response = client.toBlocking().retrieve(request)
+            logger.info("[SUCCESS] GET REQUEST: {}", url)
         } catch (e: HttpClientResponseException) {
-            logger.info("GET REQUEST: {} failed with status code: {}", url, e.status)
+            logger.info("[ERROR] REQUEST: {} failed with status code: {}", url, e.status)
         } catch (e: ReadTimeoutException) {
-            logger.info("GET REQUEST: {} failed with read-timeout.", url)
+            logger.info("[ERROR] REQUEST: {} failed with read-timeout.", url)
         }
         return response
     }
