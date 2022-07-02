@@ -17,7 +17,6 @@ import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.*
-import kotlin.streams.toList
 
 @Singleton
 class URLShorteningService(
@@ -65,9 +64,7 @@ class URLShorteningService(
 
     override fun searchSites(keywords: Keywords): List<SearchResult> = runBlocking {
         val sites = repository.list().map { register -> register.url }.toSet()
-        return@runBlocking sites.stream()
-            .map { site -> taskScope.async { searchKeywords(site, keywords.values) } }
-            .toList()
+        return@runBlocking sites.map { site -> taskScope.async { searchKeywords(site, keywords.values) } }
             .awaitAll()
             .filter { result -> result.matchingWords.isNotEmpty() }
     }
@@ -76,9 +73,7 @@ class URLShorteningService(
 
         val getResult = apiScope.async { retrieveSiteContents(url) }
 
-        val matches = words.stream()
-            .map { word -> taskScope.async { siteContains(getResult.await(), word) } }
-            .toList()
+        val matches = words.map { word -> taskScope.async { siteContains(getResult.await(), word) } }
             .awaitAll()
             .filter { result -> result.found }
             .map { found -> found.word }
