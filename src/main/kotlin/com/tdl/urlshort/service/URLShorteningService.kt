@@ -13,10 +13,10 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.http.client.exceptions.ReadTimeoutException
 import jakarta.inject.Singleton
+import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.*
-import kotlin.streams.toList
 
 @Singleton
 class URLShorteningService(
@@ -27,6 +27,8 @@ class URLShorteningService(
 ) : ShorteningService {
 
     private val logger = LoggerFactory.getLogger(URLShorteningService::class.java)
+    private val apiScope = CoroutineScope(Dispatchers.IO + CoroutineName("API Call Scope"))
+    private val taskScope = CoroutineScope(Dispatchers.Default + CoroutineName("Heavy Task Scope"))
 
     override fun shortenURL(url: LongURL): ShortURL {
         if (!urlUtils.isValidURL(url.url))
@@ -60,38 +62,44 @@ class URLShorteningService(
         )
     }
 
-    override fun searchSites(keywords: Keywords): List<SearchResult> {
+    override fun searchSites(keywords: Keywords): List<SearchResult> = runBlocking {
         val sites = repository.list().map { register -> register.url }.toSet()
-        return sites.stream()
-            .map { site -> searchKeywords(site, keywords.values) }
+        return@runBlocking sites.map { site -> taskScope.async { searchKeywords(site, keywords.values) } }
+            .awaitAll()
             .filter { result -> result.matchingWords.isNotEmpty() }
-            .toList()
     }
 
-    private fun searchKeywords(url: String, words: List<String>): SearchResult {
-        val getResult = retrieveSiteContents(url)
-        val matches = words
-            .stream()
-            .filter { word -> siteContains(getResult, word) }
-            .toList()
+    private suspend fun searchKeywords(url: String, words: List<String>): SearchResult {
+
+        val getResult = apiScope.async { retrieveSiteContents(url) }
+
+        val matches = words.map { word -> taskScope.async { siteContains(getResult.await(), word) } }
+            .awaitAll()
+            .filter { result -> result.found }
+            .map { found -> found.word }
+
         return SearchResult(url, matches)
+
     }
 
     private fun retrieveSiteContents(url: String): String {
-        logger.info("GET REQUEST: {}", url)
+        logger.info("[BEGIN] GET REQUEST: {}", url)
         var response = ""
         try {
             val request: HttpRequest<String> = HttpRequest.create(HttpMethod.GET, url)
             response = client.toBlocking().retrieve(request)
+            logger.info("[SUCCESS] GET REQUEST: {}", url)
         } catch (e: HttpClientResponseException) {
-            logger.info("GET REQUEST: {} failed with status code: {}", url, e.status)
+            logger.info("[ERROR] REQUEST: {} failed with status code: {}", url, e.status)
         } catch (e: ReadTimeoutException) {
-            logger.info("GET REQUEST: {} failed with read-timeout.", url)
+            logger.info("[ERROR] REQUEST: {} failed with read-timeout.", url)
         }
         return response
     }
 
-    private fun siteContains(siteContents: String, word: String): Boolean = siteContents.contains(word)
+    private fun siteContains(siteContents: String, word: String): WordFound {
+        return WordFound(word, siteContents.contains(word))
+    }
 
 
 }
