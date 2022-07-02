@@ -16,7 +16,6 @@ import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.*
-import kotlin.streams.toList
 
 @Singleton
 class URLShorteningService(
@@ -62,18 +61,13 @@ class URLShorteningService(
 
     override fun searchSites(keywords: Keywords): List<SearchResult> {
         val sites = repository.list().map { register -> register.url }.toSet()
-        return sites.stream()
-            .map { site -> searchKeywords(site, keywords.values) }
+        return sites.map { site -> searchKeywords(site, keywords.values) }
             .filter { result -> result.matchingWords.isNotEmpty() }
-            .toList()
     }
 
     private fun searchKeywords(url: String, words: List<String>): SearchResult {
         val getResult = retrieveSiteContents(url)
-        val matches = words
-            .stream()
-            .filter { word -> siteContains(getResult, word) }
-            .toList()
+        val matches = words.filter { word -> siteContains(getResult, word) }
         return SearchResult(url, matches)
     }
 
